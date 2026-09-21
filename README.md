@@ -4,6 +4,15 @@
 
 단순히 결과만 남기기보다는 **문제가 무엇이었는지**, **어떤 선택지를 검토했는지**, **왜 해당 방법을 선택했는지**를 설명하는 것을 목표로 합니다.
 
+## 멤버
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/DongEun02"><img src="https://avatars.githubusercontent.com/u/86216821?v=4" width="100px;" alt=""/><br /><sub><b>디움</b></sub></a><br /></td>
+         <td align="center"><a href="https://github.com/Antoliny0919"><img src="https://avatars.githubusercontent.com/u/100985243?v=4" width="100px;" alt=""/><br /><sub><b>안톨리니</b></sub></a><br /></td>
+</tr>
+</table>
+
 ## 문서 목록
 
 > 문서가 추가될 때마다 아래 목록을 함께 수정합니다.
@@ -32,15 +41,6 @@
 - 성능 수치나 테스트 결과는 재현 방법과 함께 기록합니다.
 - 외부 자료를 참고했다면 출처를 표기합니다.
 - 이후 구현이나 결정이 바뀌면 기존 문서도 함께 갱신합니다.
-
-## 멤버
-
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/DongEun02"><img src="https://avatars.githubusercontent.com/u/86216821?v=4" width="100px;" alt=""/><br /><sub><b>디움</b></sub></a><br /></td>
-         <td align="center"><a href="https://github.com/Antoliny0919"><img src="https://avatars.githubusercontent.com/u/100985243?v=4" width="100px;" alt=""/><br /><sub><b>안톨리니</b></sub></a><br /></td>
-</tr>
-</table>
 
 ## 문서 템플릿
 
