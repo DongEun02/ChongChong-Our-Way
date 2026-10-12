@@ -17,15 +17,16 @@
 
 > 문서가 추가될 때마다 아래 목록을 함께 수정합니다.
 
-| 파일 | 주제                    | 
-| ---- | ----------------------- | 
-| [webpack.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/webpack.md)    | Webpack 기반의 React & TypeScript 개발 환경 세팅 | 
-| [monitoring.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/monitoring.md)    | 사용자 행동 모니터링 환경 구축 | 
-| [ci-cd.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/ci-cd.md)    | 배포 자동화 환경 구축 | 
-| [test.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/test.md)    | 테스트 전략 수립 및 지금까지 구현한 주요 기능에 대한 자동화된 테스트 작성 | 
-| [error-tracking.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/error-tracking.md)    | 에러 트래킹 환경 구축 | 
-| [typescript.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/typescript.md)    | TypeScript 사용 기준 수립 및 런타임 타입 안전성 확보 | 
-| [accessibility.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/accessibility.md)    | 웹 접근성 개선 | 
+| 파일                                                                                                            | 주제                                                                      |
+| --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [webpack.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/webpack.md)                         | Webpack 기반의 React & TypeScript 개발 환경 세팅                          |
+| [monitoring.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/monitoring.md)                   | 사용자 행동 모니터링 환경 구축                                            |
+| [ci-cd.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/ci-cd.md)                             | 배포 자동화 환경 구축                                                     |
+| [test.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/test.md)                               | 테스트 전략 수립 및 지금까지 구현한 주요 기능에 대한 자동화된 테스트 작성 
+| [accessibility.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/accessibility.md)             | 웹 접근성 개선                                     |
+| [error-tracking.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/error-tracking.md)           | 에러 트래킹 환경 구축 - 스프린트 1                                                     |
+| [typescript.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/typescript.md)                   | TypeScript 사용 기준 수립 및 런타임 타입 안전성 확보 - 스프린트 1       |
+| [simentic-versioning.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/simentic-versioning.md) | 시멘틱 버저닝 적용 - 스프린트 2                                                        |
 
 ## 문서 구조
 
@@ -60,7 +61,6 @@
 > 이 요구사항이 왜 주어졌는지, 어떤 경험을 만들기 위한 것인지 파악합니다.
 > 적용 전 상태(문제, 불편, 위험, 비효율, 학습 공백)를 먼저 남깁니다.
 
-
 ## 적용 - 실제 서비스에
 
 > 기술을 학습하고, 실제 팀 프로젝트 서비스에 적용합니다.
@@ -73,8 +73,6 @@
 ## 기록과 설명
 
 > 수행 내용과 판단 근거를 문서로 남깁니다.
-
-
 
 ## 참고 자료
 
