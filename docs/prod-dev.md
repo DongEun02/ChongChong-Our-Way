@@ -20,6 +20,15 @@
 어떤 환경을 위한 빌드인지가 빌드 명령, 환경 변수, 산출물, 배포 대상에 일관되게 반영되어야 한다.
 따라서 잘못된 환경 조합은 빌드 전에 실패시키고, 정상적인 빌드만 배포하는 것을 목표로 잡았다.
 
+개발 환경과 운영 환경을 각각 두지 않았을 때의 불편함 또한 존재한다.
+실제로 총총 서비스의 첫 MVP가 나오고 몇 번의 버전업을 거칠 때까지 개발 서버가 존재하지 않았다.
+운영 서버만 존재했기 때문에 각자의 변경 사항을 로컬 개발 서버에서 확인한 뒤 개발 브랜치로 보내고, 개발 브랜치에서 바로 운영 브랜치로 반영했다.
+그 결과 변경한 부분들이 운영 서버에서 잘 작동하는지 미리 확인할 수 없었다.
+
+특히 백엔드 API 응답 형태와 프론트엔드의 기대가 일치하지 않는 문제를 개발 서버에서 미리 발견하지 못해 하루에 릴리스를 다섯 번이나 다시 한 적도 있었다.
+이외에도 로컬 개발 서버에서 잘 동작하던 기능이 운영 서버에서 실제 API와 연동되면 예상하지 못한 문제를 일으키곤 했다.
+이런 문제를 사용자에게 닿기 전에 더 빠르게 확인하기 위해 개발 서버가 필요했다.
+
 ## 적용 - 실제 서비스에
 
 > 기술을 학습하고, 실제 팀 프로젝트 서비스에 적용합니다.
@@ -27,7 +36,7 @@
 ### 환경을 local, dev, prod로 구분
 
 로컬 개발과 배포된 개발 환경은 모두 Webpack의 `development` 모드를 사용할 수 있지만 운영 방식은 다르다.
-로컬에서는 Webpack Dev Server와 HMR이가 필요하지만, 배포된 dev는 S3와 CloudFront에서 제공하는 정적 산출물이다.
+로컬에서는 Webpack Dev Server와 HMR(Hot Module Replacement)이 필요하지만, 배포된 개발 환경은 S3와 CloudFront에서 제공하는 정적 산출물이다.
 이 차이를 설정에 드러내기 위해 세 환경을 분리했다.
 
 | 구분           | local              | dev 배포                          | prod 배포                                   |
@@ -41,6 +50,10 @@
 | 환경 변수 공급 | `.env.local`       | CodeBuild                         | CodeBuild                                   |
 | 배포 위치      | 로컬 메모리        | S3 `uploads/dev` + dev CloudFront | S3 `uploads/prod` + prod CloudFront         |
 | 정적 자산 캐시 | 해당 없음          | `no-cache`                        | `public,max-age=31536000,immutable`         |
+
+운영 환경에서는 콘텐츠 해시가 포함된 정적 자산에 1년 캐시 정책을 적용했다.
+`index.html`은 캐시하지 않도록 하고, 배포 후 최신 HTML이 변경된 해시 파일명을 참조하도록 했다.
+이를 통해 변경되지 않은 자산은 캐시를 재사용하고 변경된 자산은 새 URL로 불러오도록 구성했다.
 
 ### 공통 설정과 환경별 설정 분리
 
@@ -56,13 +69,33 @@ webpack.common.js
 `webpack.common.js`는 entry, TypeScript·자산 loader, HTML 생성, output 경로, 환경 변수 주입처럼 환경과 관계없이 공통인 설정을 관리한다.
 각 환경 설정은 `webpack-merge`로 공통 설정을 합성한 뒤 `mode`, `devtool`, 파일명, Dev Server, Sentry 플러그인처럼 환경별로 달라야 하는 값만 추가한다.
 
-하나의 설정 함수 안에 모든 분기를 두는 방법도 가능하지만, 배포 명령에서 어떤 설정을 사용하는지 직접 드러나도록 환경별 파일을 선택했다.
-대신 공통 설정을 함수로 추출해 중복과 환경 간 설정 누락을 줄였다.
+하나의 설정 함수 안에 모든 분기를 두는 방법도 가능하다.
+하지만 환경마다 다른 값이 적용될수록 분기가 늘어나 전체 흐름을 읽기 어려워진다.
+따라서 각 환경을 분리하고 배포 명령에서 어떤 설정을 사용하는지 직접 드러나도록 했다.
+여러 환경에 공통으로 적용되는 로직은 함수로 추출해 중복과 환경 간 설정 누락을 줄였다.
+
+```js
+export function createSentryPlugin(authToken) {
+  return sentryWebpackPlugin({
+    org: "woowacourse-31",
+    project: "chongchong",
+    authToken,
+    errorHandler(error) {
+      throw error;
+    },
+    sourcemaps: {
+      assets: "./dist/**/*.{js,map}",
+    },
+  });
+}
+```
+
+Sentry 플러그인은 로컬을 제외한 개발 및 운영 환경에서 사용한다.
 
 ### 환경 변수를 빌드 시점에 확정
 
-Web 앱에서 사용하는 `API_BASE_URL`, Kakao REST API 키, PostHog 설정, `USE_MSW`, Sentry DSN과 환경 이름을 Webpack `DefinePlugin`으로 번들에 주입한다.
-즉 배포 후 브라우저에서 환경을 결정하는 구조가 아니라, 빌드 시점에 결과물의 대상 환경이 확정된다.
+Web 앱에서 사용하는 `API_BASE_URL`, Kakao REST API 키, PostHog 설정, `USE_MSW`, Sentry DSN과 환경 이름을 Webpack `DefinePlugin`으로 번들에 주입했다.
+따라서 이 설정들은 브라우저 실행 시점이 아니라 빌드 시점에 확정되며, 변경하려면 다시 빌드해야 한다.
 
 로컬에서만 `webpack.local.js`가 `.env.local`을 읽는다.
 dev와 prod 배포 빌드는 저장소의 `.env` 파일을 읽지 않고 CodeBuild 환경 변수만 사용한다.
@@ -80,8 +113,29 @@ Sentry Auth Token은 플러그인의 소스맵 업로드에만 사용하고 번�
 - 배포 빌드에서 `USE_MSW`는 반드시 `false`여야 한다.
 - PostHog Host와 Project Token은 둘 다 설정하거나 둘 다 설정하지 않아야 한다.
 
+```sh
+required=(API_BASE_URL KAKAO_REST_API_KEY SENTRY_AUTH_TOKEN)
+for name in "${required[@]}"; do
+  if [ -z "${!name// }" ]; then
+    echo "Missing CodeBuild environment variable: ${name}" >&2
+    exit 1
+  fi
+done
+```
+
+위와 같은 방식으로 빌드 스크립트에서 필수 환경 변수가 제공되지 않으면 오류를 반환한다.
+
 추가로 `webpack.dev.js`와 `webpack.prod.js`도 각각 자신의 설정과 `DEPLOY_ENV`가 일치하는지 다시 검증한다.
 CodeBuild의 분기가 잘못되거나 사람이 잘못된 스크립트를 직접 실행해도 다른 환경의 결과물이 생성되지 않도록 중복 방어했다.
+
+```js
+// webpack.dev.js
+if (process.env.DEPLOY_ENV !== "dev") {
+  throw new Error("DEPLOY_ENV must be dev for a development deployment build.");
+}
+```
+
+이처럼 선언한 배포 환경과 Webpack 설정이 일치하지 않으면 빌드를 중단한다.
 
 ### 소스맵과 오류 환경 분리
 
@@ -89,8 +143,16 @@ dev와 prod 모두 빌드 시 Sentry Webpack Plugin이 소스맵을 업로드한
 `SENTRY_ENVIRONMENT`에는 `DEPLOY_ENV`를 주입해 같은 Sentry 프로젝트 안에서도 dev와 prod 오류를 구분할 수 있게 했다.
 
 prod는 `hidden-source-map`으로 맵을 생성하여 번들에 소스맵 참조를 남기지 않는다.
-Webpack 빌드 중 Sentry 업로드가 완료된 뒤 `dist` 안의 `.map` 파일을 삭제하므로 S3에는 소스맵이 배포되지 않는다.
+Webpack 빌드 중 Sentry 업로드가 완료된 뒤 `dist` 안의 `.map` 파일을 삭제하므로 S3에는 소스맵이 배포되지 않는다. 아래 프로덕션 빌드 스크립트에서 이 순서를 확인할 수 있다.
 dev는 브라우저에서 원본 코드를 기준으로 디버깅할 수 있도록 `source-map`을 유지한다.
+
+```json
+{
+  "scripts": {
+    "build:production": "webpack --config webpack.prod.js && find dist -type f -name '*.map' -delete && cp -R src/pwa dist/pwa"
+  }
+}
+```
 
 ## 관찰 - 적용 후
 
@@ -100,7 +162,7 @@ dev는 브라우저에서 원본 코드를 기준으로 디버깅할 수 있도�
 적용 후 다음 변화를 확인할 수 있다.
 
 - `package.json`의 명령만 보아도 로컬, dev 배포, prod 배포에 사용하는 설정을 구분할 수 있다.
-- 빌드 환경과 API 주소가 일치하지 않거나 MSW가 켜져 있으면 S3 업로드 전에 실패한다.
+- 빌드 환경과 API 주소가 일치하지 않거나 MSW가 켜져 있으면 S3 업로드 전에 실패하므로 더 안정적으로 빌드하고 배포할 수 있다.
 - dev와 prod가 서로 다른 S3 prefix와 CloudFront Distribution을 사용한다.
 - prod의 해시 자산은 장기 캐시하면서, 교체 가능한 HTML과 PWA 파일은 매번 재검증하도록 캐시 정책이 분리되었다.
 - prod 소스맵은 Sentry에만 업로드되고 정적 서비스에는 포함되지 않는다.
@@ -117,21 +179,21 @@ CodeBuild 설정에 주입된 환경 변수, S3의 실제 오브젝트 메타데
 ```text
 CodeBuild 환경 변수
         │
-        ├─ DEPLOY_ENV=dev  ─→ 값 검증 ─→ webpack.dev.js  ─→ dev S3  ─→ dev CloudFront
+        ├─ DEPLOY_ENV=dev  ─→ 값 검증 ─→ webpack.dev.js  ─→ dev S3(techcourse-project-2026chongchong/uploads/dev/)  ─→ dev CloudFront
         │
-        └─ DEPLOY_ENV=prod ─→ 값 검증 ─→ webpack.prod.js ─→ prod S3 ─→ prod CloudFront
+        └─ DEPLOY_ENV=prod ─→ 값 검증 ─→ webpack.prod.js ─→ prod S3(techcourse-project-2026chongchong/uploads/prod/) ─→ prod CloudFront
                                       │
                                       └─→ Sentry 소스맵 업로드
 ```
 
 ### 배포 후 확인 목록
 
-1. dev와 prod 각 URL이 기대한 API origin으로 요청하는지 확인한다.
-2. 배포된 앱에서 MSW가 시작하지 않는지 확인한다.
-3. prod의 JS·font 자산 파일명에 content hash가 포함되었는지 확인한다.
-4. `index.html`과 PWA 파일은 `no-cache`, prod 해시 자산은 `immutable`을 응답하는지 확인한다.
-5. prod S3 경로에 `.map` 파일이 없고 Sentry에서는 원본 코드 기준의 stack trace를 확인할 수 있는지 검증한다.
-6. 같은 오류를 dev와 prod에서 각각 발생시켜 Sentry의 `environment`가 분리되는지 확인한다.
-7. CloudFront 무효화가 `Completed` 상태가 된 후 새 버전이 제공되는지 확인한다.
+다음 과정을 실제로 확인하면서 환경 분리가 의도대로 적용되었는지 검증했다.
 
-## 참고 자료
+1. dev와 prod 각 URL이 기대한 API origin으로 요청하는지 확인한다.
+2. 배포된 앱의 서비스 워커를 확인해 MSW가 시작하지 않는지 확인한다.
+3. 배포 결과물이나 네트워크 요청에서 prod의 JS·font 자산 파일명에 content hash가 포함되었는지 확인한다.
+4. 네트워크 응답의 Cache-Control 헤더를 확인해 `index.html`과 PWA 파일은 `no-cache`, prod 해시 자산은 `immutable`인지 확인한다.
+5. prod S3 버킷에 `.map` 파일이 없고 Sentry에서는 원본 TS/TSX 파일명, 행 번호, 코드를 기준으로 stack trace가 표시되는지 검증한다.
+6. 같은 오류를 dev와 prod에서 각각 발생시켜 Sentry의 `environment`가 분리되는지 확인한다.
+7. CloudFront 무효화가 `Completed` 상태가 된 후 새 버전의 기능이 제공되는지 확인한다.
