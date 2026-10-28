@@ -28,6 +28,7 @@
 | [typescript.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/typescript.md)                   | TypeScript 사용 기준 수립 및 런타임 타입 안전성 확보 - 스프린트 1         |
 | [simentic-versioning.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/simentic-versioning.md) | 시멘틱 버저닝 적용 - 스프린트 2                                           |
 | [prod-dev.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/prod-dev.md)                       | development / production 빌드 및 배포 환경 분리 - 스프린트 2              |
+| [rendering-strategy.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/rendering-strategy.md)   | 렌더링 아키텍처 판단 및 페이지별 전략 수립 - 스프린트 3                   |
 
 ## 문서 구조
 
