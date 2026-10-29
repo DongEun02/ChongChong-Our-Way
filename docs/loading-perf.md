@@ -5,9 +5,9 @@
 총총은 PWA 앱으로 접속하는 사용자가 많아 모바일 환경에서의 로딩 성능이 중요하다.
 사용자가 서비스에 진입한 뒤 콘텐츠를 보기까지 얼마나 기다리는지 확인하기 위해 Chrome DevTools의 Lighthouse를 모바일 조건으로 실행했다.
 
-개선 전에는 FCP가 10.035초, LCP가 10.651초로 측정됐다.
+개선 전에는 FCP(First Contentful Paint)가 10.035초, LCP(Largest Contentful Paint)가 10.651초로 측정됐다.
 첫 콘텐츠와 주요 콘텐츠가 표시되기까지 약 10초가 걸리는 상태였다.
-반면 TBT와 CLS는 낮게 나타나, 초기 리소스 로딩과 화면 표시 지연을 우선 개선 대상으로 정했다.
+반면 TBT(Total Blocking Time)와 CLS(Cumulative Layout Shift)는 낮게 나타나, 초기 리소스 로딩과 화면 표시 지연을 우선 개선 대상으로 정했다.
 
 ### 비교를 위한 측정 환경
 
