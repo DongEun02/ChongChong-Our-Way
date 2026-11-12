@@ -17,19 +17,20 @@
 
 > 문서가 추가될 때마다 아래 목록을 함께 수정합니다.
 
-| 파일                                                                                                            | 주제                                                                                   |
-| --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [webpack.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/webpack.md)                         | Webpack 기반의 React & TypeScript 개발 환경 세팅                                       |
-| [monitoring.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/monitoring.md)                   | 사용자 행동 모니터링 환경 구축                                                         |
-| [ci-cd.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/ci-cd.md)                             | 배포 자동화 환경 구축                                                                  |
-| [test.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/test.md)                               | 테스트 전략 수립 및 지금까지 구현한 주요 기능에 대한 자동화된 테스트 작성 - 스프린트 4 |
-| [accessibility.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/accessibility.md)             | 웹 접근성 개선                                                                         |
-| [error-tracking.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/error-tracking.md)           | 에러 트래킹 환경 구축 - 스프린트 1                                                     |
-| [typescript.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/typescript.md)                   | TypeScript 사용 기준 수립 및 런타임 타입 안전성 확보 - 스프린트 1                      |
-| [simentic-versioning.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/simentic-versioning.md) | 시멘틱 버저닝 적용 - 스프린트 2                                                        |
-| [prod-dev.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/prod-dev.md)                       | development / production 빌드 및 배포 환경 분리 - 스프린트 2                           |
-| [loading-perf.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/loading-perf.md)               | 로딩 성능 개선 - 스프린트 3                                                            |
-| [rendering-strategy.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/rendering-strategy.md)   | 렌더링 아키텍처 판단 및 페이지별 전략 수립 - 스프린트 3                                |
+| 파일                                                                                                            | 주제                                                                      |
+| --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [webpack.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/webpack.md)                         | Webpack 기반의 React & TypeScript 개발 환경 세팅                          |
+| [monitoring.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/monitoring.md)                   | 사용자 행동 모니터링 환경 구축                                            |
+| [ci-cd.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/ci-cd.md)                             | 배포 자동화 환경 구축                                                     |
+| [test.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/test.md)                               | 테스트 전략 수립 및 지금까지 구현한 주요 기능에 대한 자동화된 테스트 작성 - 스프린트 4(보강) |
+| [accessibility.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/accessibility.md)             | 웹 접근성 개선                                                            |
+| [error-tracking.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/error-tracking.md)           | 에러 트래킹 환경 구축 - 스프린트 1                                        |
+| [typescript.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/typescript.md)                   | TypeScript 사용 기준 수립 및 런타임 타입 안전성 확보 - 스프린트 1         |
+| [simentic-versioning.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/simentic-versioning.md) | 시멘틱 버저닝 적용 - 스프린트 2                                           |
+| [prod-dev.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/prod-dev.md)                       | development / production 빌드 및 배포 환경 분리 - 스프린트 2              |
+| [loading-perf.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/loading-perf.md)               | 로딩 성능 개선 - 스프린트 3                                               |
+| [rendering-strategy.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/rendering-strategy.md)   | 렌더링 아키텍처 판단 및 페이지별 전략 수립 - 스프린트 3                   |
+| [rendering-perf.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/rendering-perf.md)           | 렌더링 성능 개선 - 스프린트 4                                             |
 
 ## 문서 구조
 
