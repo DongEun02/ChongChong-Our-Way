@@ -51,7 +51,7 @@ const MemoizedReminderField = memo(ReminderField);
 />
 ```
 
-제목이나 내용만 수정할 때는 `remindAts`의 참조가 유지된다. `useState`의 setter인 `setRemindAts`도 참조가 안정적이다. 나머지 props 역시 값이 같으므로, `memo`의 기본 props 비교로 리마인드 필드의 렌더링을 건너뛸 수 있다. 이 경계에서 막으면 내부 날짜 선택기와 달력도 함께 건너뛴다.
+제목이나 내용만 수정할 때는 `remindAts`의 참조가 유지된다. `useState`의 setter인 `setRemindAts`도 참조가 안정적이다. 나머지 props 역시 값이 같으므로, `memo`의 기본 props 비교로 리마인드 필드의 렌더링을 건너뛸 수 있다. 이 경계에서 막으면 하위 컴포넌트인 날짜 선택기와 달력도 함께 건너뛴다.
 
 리마인드를 등록하거나 삭제하면 `remindAts`가 바뀌므로 정상적으로 다시 렌더링된다. 제출 상태나 오류가 바뀌는 경우에도 `disabled`, `errorText` 변경이 반영된다. 이를 위해 별도의 `useCallback`이나 사용자 정의 비교 함수를 추가할 필요는 없었다.
 
