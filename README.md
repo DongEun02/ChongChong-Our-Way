@@ -30,6 +30,7 @@
 | [prod-dev.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/prod-dev.md)                       | development / production 빌드 및 배포 환경 분리 - 스프린트 2              |
 | [loading-perf.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/loading-perf.md)               | 로딩 성능 개선 - 스프린트 3                                               |
 | [rendering-strategy.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/rendering-strategy.md)   | 렌더링 아키텍처 판단 및 페이지별 전략 수립 - 스프린트 3                   |
+| [rendering-perf.md](https://github.com/DongEun02/ChongChong-Our-Way/blob/main/docs/rendering-perf.md)           | 렌더링 성능 개선 - 스프린트 4                                             |
 
 ## 문서 구조
 
